@@ -24,9 +24,9 @@ template<class T>
         
         for(int i = 0; i < 100; i++)                
         {
-            printf("#%d", i);
-            print(transposed(x_));
-            printf("f = %lf\n", (transposed(c_) * x_)(0, 0));
+           // printf("#%d", i);
+           // print(transposed(x_));
+           // printf("f = %lf\n", (transposed(c_) * x_)(0, 0));
             
             int res = makeStep();
             if(res == INFINITE)
@@ -40,26 +40,26 @@ template<class T>
             }
         }
         
-        printf("\nsolved = %lf\n", (transposed(c_) * x_)(0, 0));
+     //   printf("\nsolved = %lf\n", (transposed(c_) * x_)(0, 0));
         
         return x_;
     }
 
     Matrix<T> operator()()
     {   
-        printf("A\n");
-        print(A_);
-        printf("b\n");
-        print(transposed(b_));
-        printf("c\n");
-        print(transposed(c_));
-        printf("\n");
+      //  printf("A\n");
+       // print(A_);
+       // printf("b\n");
+       // print(transposed(b_));
+       // printf("c\n");
+       // print(transposed(c_));
+       // printf("\n");
     
-        printf("\ninitial vector\n");
+      //  printf("\ninitial vector\n");
 
         x_ = calcInitialVector();
 
-        printf("\ntask\n");
+      //  printf("\ntask\n");
 
         operator()(x_);
                 
@@ -190,8 +190,8 @@ private:
                 
 			if (j == d_.m())
 			{
-				cout << "Dual task solution:" << endl;
-				print(y);
+				//cout << "Dual task solution:" << endl;
+				//print(y);
 				return SUCCESS; // problem have been solved, x_ is optimal vector
 			}
             j = L[j];

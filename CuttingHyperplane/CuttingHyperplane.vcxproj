@@ -19,14 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="hyperplane.cpp" />
+    <ClCompile Include="bounds.cpp" />
+    <ClCompile Include="fileRewriting.cpp" />
+    <ClCompile Include="hplane.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Simplex.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hyperplane.h" />
+    <ClInclude Include="bounds.h" />
+    <ClInclude Include="fileRewrite.h" />
+    <ClInclude Include="Hplane.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="matrix.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
