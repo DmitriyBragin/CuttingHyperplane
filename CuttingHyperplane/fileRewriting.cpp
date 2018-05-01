@@ -9,7 +9,7 @@ using namespace std;
 
 void FileRewrite::openFiles()
 {
-	f.open("input.txt");
+	f.open("inputDUAL.txt");
 	out.open("output.txt");
 }
 
@@ -74,6 +74,59 @@ string FileRewrite::addHyperplane()
 	return line;
 }
 
+
+void FileRewrite::fileRewritingAsDUAL()
+{
+	numBoundaries = numVariables = 0;
+	openFiles();
+	for (int lineno = 0; lineno < 2; lineno++) /*  Изменения количества ограничений и переменных, запись нового */
+	{
+		getline(f, line);
+		switch (lineno)
+		{
+		case 0: /* Первая строка файла - количество ограничений */
+			//line = changeNumberConstraints(); //НЕ ИЗМЕНЯЕМ В ДВОЙСТВЕННОЙ
+			numBoundaries = atof(line.c_str());
+			break;
+		case 1: /* Вторая строка файла - количество переменных */
+			line = changeNumberVariables();
+			break;
+		}
+		out << line << endl; /* Запись полученной строчки в файл */
+	}
+	getline(f, line);
+	out << line << endl;
+
+	vector<double> coeff = hyp.getCoeff();
+
+	for (int lineno = 0; lineno < numBoundaries; lineno++) /* Изменение в каждой строчке, т.е добавление новой гиперплоскости */
+	{
+		getline(f, line);
+		ostringstream sstream;
+		sstream << ' ';
+		sstream << -coeff[lineno];
+		line.insert(line.size(), sstream.str());
+		out << line << endl; /* Запись полученной строчки в файл */
+	}
+	double b = hyp.getB();
+	getline(f, line);
+	out << line << endl;
+	getline(f, line);
+	out << line << endl;
+	getline(f, line);
+	out << line << endl;
+	getline(f, line);
+	ostringstream sstream;
+	sstream << ' ';
+	sstream << b;
+	line.insert(line.size(), sstream.str());
+	out << line << endl;
+	f.close();
+	out.close();
+	rename("inputDUAL.txt", "temp.txt");
+	rename("output.txt", "inputDUAL.txt");
+	rename("temp.txt", "output.txt");
+}
 
 void FileRewrite::fileRewriting()
 {

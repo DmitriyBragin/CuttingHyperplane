@@ -41,28 +41,27 @@ template<class T>
         }
         
      //   printf("\nsolved = %lf\n", (transposed(c_) * x_)(0, 0));
-        
         return x_;
     }
 
     Matrix<T> operator()()
     {   
-      //  printf("A\n");
-       // print(A_);
-       // printf("b\n");
-       // print(transposed(b_));
-       // printf("c\n");
-       // print(transposed(c_));
-       // printf("\n");
+     //   printf("A\n");
+    //    print(A_);
+    //    printf("b\n");
+    //    print(transposed(b_));
+    //    printf("c\n");
+    //    print(transposed(c_));
+     //   printf("\n");
     
-      //  printf("\ninitial vector\n");
+   //     printf("\ninitial vector\n");
 
         x_ = calcInitialVector();
 
-      //  printf("\ntask\n");
+     //  printf("\ntask\n");
 
         operator()(x_);
-                
+		return y_dualSolution;
         return x_;
     }
     
@@ -163,7 +162,7 @@ private:
             //print(B_);
 
             Matrix<T> y = transposed(c_(N_)) * B_;
-
+			y_dualSolution = transposed(c_(N_)) * B_;
             //printf("\n c_(N_) :");
             //print(c_(N_));
 
@@ -190,8 +189,8 @@ private:
                 
 			if (j == d_.m())
 			{
-				//cout << "Dual task solution:" << endl;
-				//print(y);
+			//	cout << "Dual task solution:" << endl;
+		//		print(y_dualSolution);
 				return SUCCESS; // problem have been solved, x_ is optimal vector
 			}
             j = L[j];
@@ -260,7 +259,7 @@ private:
     std::vector<Indices> addN_;
     Matrix<T> d_;
     Matrix<T> u_;
-
+	Matrix<T> y_dualSolution;
    
     int n_;
     int m_;
@@ -274,7 +273,7 @@ vector<double> simplexModule()
     // load data
 	ifstream f;
 	vector<double> result;
-	f.open("input.txt");
+	f.open("inputDUAL.txt");
 
 	 /* Reading size of matrixes*/
 	int N, M;
@@ -291,22 +290,32 @@ vector<double> simplexModule()
     load(&f, M, b);        
     load(&f, N, c);        
 	f.close();
+
+
+
+
     Simlex<double> simplex(A, b, c);
 
     // solve
     solution = simplex();
+	result = solution.getData();
+	for (int i = 0; i < result.size(); i++)
+	{
+		result[i] *= -1; /* ÂÍÈÌÀÍÈÅ, ÌÈÍÓÑ ÑÒÎÈÒ ÈÇ-ÇÀ ÄÂÎÉÑÒÂÅÍÍÎÉ ÇÀÄÀ×È ÈÑÏÐÀÂÈÒÜ ÅÑËÈ ÍÓÆÍÀ ÏÐßÌÀß*/
+	}
+	return result;
+	printf("\ndual\n");
+	Simlex<double> simplex2(A, b, c);
+	simplex2.makeDual();
+
+	solution = simplex2();
 	result.resize(solution.m());
 	for (int i = 0; i < solution.m(); i++)
 	{
 		result[i] = solution(i);
 	}
-	return result;
-    printf("\ndual\n");
-    
-    Simlex<double> simplex2(A, b, c);
-    simplex2.makeDual();
-    
-    solution = simplex2();
+
+
 
 	return result;
 }

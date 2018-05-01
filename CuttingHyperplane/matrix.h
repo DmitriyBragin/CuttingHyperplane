@@ -109,7 +109,7 @@ public:
     
     Type & operator() (int i, int j = 0) 
     { 
-        assert(i < m_ && j < n_);
+        //assert(i < m_ && j < n_);
         return data_[to1d(i, j)]; 
     }
     Type const& operator() (int i, int j = 0) const 
@@ -269,7 +269,7 @@ public:
         
         return true;
     }
-    
+	vector<Type> getData() { return data_; }
 private:
     int to1d(int N, int i, int j) const { return i * N + j; }
     int to1d(int i, int j)        const { return to1d(n_, i, j); }

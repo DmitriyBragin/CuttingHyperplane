@@ -15,6 +15,7 @@ private:
 public:
 	FileRewrite(Hyperplane _hyp) : hyp(_hyp) {}
 	void fileRewriting();
+	void fileRewritingAsDUAL();
 	void openFiles();
 	string changeNumberConstraints();
 	string changeNumberVariables();
