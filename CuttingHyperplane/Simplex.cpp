@@ -55,16 +55,28 @@ template<class T>
      //   printf("\n");
     
    //     printf("\ninitial vector\n");
+		if (flag == true)
+		{
+			x_ = calcInitialVector();
+			flag = false;
+		}
+		else
+		{
+			vector<double> solutCoeffTemp = solutionLastStep.getData();
+			solutCoeffTemp.resize(solutCoeffTemp.size() + 1);
+			Matrix<T> newVec;
 
-        x_ = calcInitialVector();
-
+		}
+		/* рср мюдн блеярн йюкйбейрнп дюрэ гмювемхе опедшдсыецн ьюцю */
      //  printf("\ntask\n");
 
         operator()(x_);
+		solutionLastStep = x_;
 		return y_dualSolution;
         return x_;
     }
-    
+
+	void setFlag(bool _flag) { flag = _flag; }
     void makeDual()
     {
         Matrix<T> A = transposed(A_);
@@ -230,7 +242,6 @@ private:
            
         return FAIL;
     }
-    
     void makeN(Indices N, int i)
     {
         for(; i < (int)N0_.size(); i++)
@@ -260,7 +271,8 @@ private:
     Matrix<T> d_;
     Matrix<T> u_;
 	Matrix<T> y_dualSolution;
-   
+	Matrix<T> solutionLastStep;
+	bool flag;
     int n_;
     int m_;
 };
@@ -294,9 +306,9 @@ vector<double> simplexModule()
 
 
 
-    Simlex<double> simplex(A, b, c);
-
+	Simlex<double> simplex(A, b, c);
     // solve
+	simplex.setFlag(true);
     solution = simplex();
 	result = solution.getData();
 	for (int i = 0; i < result.size(); i++)
